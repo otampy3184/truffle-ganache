@@ -1,21 +1,21 @@
 # truffle-ganache
 truffleとganacheを使って独自トークンをローカルネットワーク上で動作させる
 
-# how it was started
+## how it was started
 
 1. 初期設定
 ```
-npm install -g truffle
-mkedir truffle-ganache
-cd truffle-ganache
-truffle init
+$ npm install -g truffle
+$ mkedir truffle-ganache
+$ cd truffle-ganache
+$ truffle init
 ```
 
 ganacheにつなぐ場合はtruffle-config.jsを更新し、localhostに接続するように設定する
 
 2. ganacheとの接続確認
 ```
-truffle console
+$ truffle console
 ```
 truffle(development)と表示されればOK
 
@@ -23,7 +23,7 @@ exitしたい場合はCTRL+Cを2回連続で叩く
 
 3. contract追加後にコンパイルを行う
 ```
-truffle compile
+$ truffle compile
 ```
 正常に完了した場合はbuildフォルダが作成され、中に生成物が格納される
 
@@ -31,14 +31,14 @@ truffle compile
 作成したコントラクトに合わせたマイグレーションファイルを使う
 マイグレーションファイルもtruffleコマンドを使って簡単に作成できる
 ```
-truffle create migration sushiItem
+$ truffle create migration sushiItem
 ```
 作成されたマイグレーションファイル名の先頭には作成時点のタイムスタンプがくっついている
 
 5. コントラクトのデプロイ
 マイグレーションファイルを動かして実際にganacheのネットワークに対してコントラクトのデプロイを行う
 ```
-truffle migrate
+$ truffle migrate
 ```
 
 以下のように出てきたら成功で、実際にganacheがわのアカウントを見るとfinal costに出てきている分だけETHが減っている
@@ -111,3 +111,34 @@ mintの第一引数はtokenId, 第二引数はamount
 ```
 
 truffle上を確認すると、同じTxHashが発行されてコントラクトがコールされていることがわかる
+
+## フロントエンド上からトークンを操作できるようにする
+1. reactのインストール
+create-react-appコマンドを使って雛形だけ作る
+```
+$ npm install -g create-react-app
+$ exec $SHELL -l
+$ create-react-app client
+```
+
+clientフォルダが作成され、中にreactの雛形が出来上がっている
+```
+$ cd client
+```
+
+npm run startでREACTのサンプルページを立ち上げることができる
+```
+$ npm run start
+Compiled successfully!
+
+You can now view client in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://172.20.10.2:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+```
+
