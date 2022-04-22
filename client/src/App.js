@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import React, { useState, useEffect } from "react";
+import getWeb3 from "./getWeb3";
 import ERC20 from './contracts/ERC20.json';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Select, MenuItem } from '@material-ui/core';
@@ -34,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 const App = () => {
   // ステート変数を用意
+  const [ state, setState ] = useState({ web3: null, accounts: null, contract: null  });
   const [name, setName] = useState(null);
   const [symbol, setSymbol] = useState(null);
   const [decimal, setDecimal] = useState(null);
@@ -54,28 +56,27 @@ const App = () => {
   /**
    * init関数
    */
-  const init = async () => {
+   const init = async (isMounted) => {
     try {
-      // Web3が使えるように設定する。
-      const provider = await detectEthereumProvider();
-      const web3 = new Web3(provider);
+      // 変数を設定
+      const web3 = await getWeb3();
+      const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
+      // デプロイ済みネットワークを取得する。
       const deployedNetwork = ERC20.networks[networkId];
-      const web3Accounts = await web3.eth.getAccounts();
-      const instance = new web3.eth.Contract(ERC20.abi, deployedNetwork && deployedNetwork.address,);
-      // Web3を設定する。
-      setEthWeb3(web3);
-      // コントラクトをセットする。
-      setContract(instance);
-      // アカウントをセットする。
-      setAccounts(web3Accounts);
-      // ネットワークIDをセットする。
-      setNetID(networkId);
+      // コントラクトのインスタンスを生成する。
+      const instance = new web3.eth.Contract (ERC20.abi, deployedNetwork && deployedNetwork.address);
+      // ステート変数を設定する。
+      if (isMounted) { 
+        setState ({ web3, accounts, contract: instance });
+      }
     } catch (error) {
-      alert(`Failed to load web3, accounts, or contract. Check console for details.`,);
-      console.error(error);
+      // アラートを出す。
+      alert (`App.js: Failed to load web3, accounts, or contract. Check console for details.`,);
+      // アラート内容を出力する。
+      console.error (error);
     }
-  };
+  } 
 
   /**
    * buttonDeploy関数
