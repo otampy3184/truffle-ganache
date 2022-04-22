@@ -142,3 +142,8 @@ To create a production build, use npm run build.
 webpack compiled successfully
 ```
 
+npm installに失敗する場合はnpm installの末尾に--save --legacy-peer-depsを追加して実行する
+```
+npm instal --save --legacy-peer-deps
+```
+
