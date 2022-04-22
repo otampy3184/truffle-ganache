@@ -36,5 +36,16 @@ truffle create migration sushiItem
 作成されたマイグレーションファイル名の先頭には作成時点のタイムスタンプがくっついている
 
 5. コントラクトのデプロイ
+マイグレーションファイルを動かして実際にganacheのネットワークに対してコントラクトのデプロイを行う
+```
+truffle migrate
+```
 
+以下のように出てきたら成功で、実際にganacheがわのアカウントを見るとfinal costに出てきている分だけETHが減っている
+```
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.0658655 ETH
+```
 
